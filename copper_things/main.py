@@ -24,18 +24,18 @@ class Point:
 #variabili
 a = 0
 #points
-r1 = Point("10±2","97,80±0,04" ,"r1" , 0 , -5)
-r2 = Point("7±2", "55,50±0,04","r2",0 , -10)
-r3 = Point("7±2","62,20±0,04" ,"r3",0 , 5)
-c1 = Point("9±2","76,42±0,04" ,"c1",0 , -5)
-c2 = Point("11±2", "101,37±0,04","c2",0 , 5)
-c3 = Point("20±2", "184,05±0,04","c3",0 , 10)
-#r1 = Point("11,5	±	0,2","97,99	±	0,01", "r1" , 0 , -10)
-#r2 = Point("6,8	±	0,1","55,56	±	0,01" ,"r2"  ,0 , -8)
-#r3 = Point("7,2	±	0,1" ,"62,31	±	0,01","r3" , 0 , 8)
-#c1 = Point("4,7	±	0,7" ,"76,57	±	0,01","c1" , 0 ,5 )
-#c2 = Point("11	±	2" ,"101,51	±	0,01","c2",0 , 5)
-#c3 = Point("23	±	4","184,14	±	0,01" ,"c3" , 0 , -8)
+#r1 = Point("10±2","97,80±0,04" ,"r1" , 0 , -5)
+#r2 = Point("7±2", "55,50±0,04","r2",0 , -10)
+#r3 = Point("7±2","62,20±0,04" ,"r3",0 , 5)
+#c1 = Point("9±2","76,42±0,04" ,"c1",0 , -5)
+#c2 = Point("11±2", "101,37±0,04","c2",0 , 5)
+#c3 = Point("20±2", "184,05±0,04","c3",0 , 10)
+r1 = Point("11,5	±	0,2","97,99	±	0,01", "r1" , 0 , -10)
+r2 = Point("6,8	±	0,1","55,56	±	0,01" ,"r2"  ,0 , -8)
+r3 = Point("7,2	±	0,1" ,"62,31	±	0,01","r3" , 0 , 8)
+c1 = Point("4,7	±	0,1" ,"76,57	±	0,01","c1" , 0 ,5 )
+c2 = Point("11	±	0,2" ,"101,51	±	0,01","c2",0 , 5)
+c3 = Point("23	±	0,2","184,14	±	0,01" ,"c3" , 0 , -8)
 #funzione matematica
 def math_function(coeff , dati_x):
     f_fit = lambda x: coeff*x
@@ -70,7 +70,7 @@ coeff_inv = chi.find(dati_y , dati_x , inc_x_0)
 if coeff_inv[1] <= 10: #perchè così si può fare la semidispersione e la media
     coeff_inv = chi.find_m(dati_y , dati_x , inc_x_0 , 10 , coeff_inv[0])
 valori_fit_inv = math_function(1/coeff_inv[0] , dati_x)
-valori_media_pesata = math_function(9.11 , dati_x)
+valori_media_pesata = math_function(9.10 , dati_x)
 plt.plot(valori_media_pesata[0],valori_media_pesata[1] , "r"  ,label="retta della media pesata")
 #plt.plot(valori_fit[0] , valori_fit[1] , '--g' , label="retta del migliore χ²")
 plt.plot(valori_fit_inv[0] , valori_fit_inv[1] , '--' , label="retta del migliore χ² invertito" , color='#808000')
@@ -82,25 +82,26 @@ for dato in dati:
     else:
         look_up_table[dato.inc_y] = dato.y
 
-threshold = 1
-#algoritmo trova max
+threshold = 0.15
+#algoritmo trova min
 look_up_table = {dato.x-dato.inc_x: dato for dato in dati if dato.inc_x >= threshold}
 look_keys = list(look_up_table.keys())
 min_key = look_up_table[max(look_keys)]
-coeff_max = min_key.y/(min_key.x-min_key.inc_x)
-inc_coeff_max = (min_key.inc_x/min_key.x + min_key.inc_y/min_key.y) * coeff_max
-#algoritmo trova min
+coeff_min = min_key.y/(min_key.x-min_key.inc_x)
+inc_coeff_min = (min_key.inc_x/min_key.x + min_key.inc_y/min_key.y) * coeff_min
+#algoritmo trova max
 look_up_table = {dato.x+dato.inc_x: dato for dato in dati if dato.inc_x >= threshold}
 look_keys = list(look_up_table.keys())
 min_key = look_up_table[min(look_keys)]
-coeff_min = min_key.y/(min_key.x+min_key.inc_x)
-inc_coeff_min = (min_key.inc_x/min_key.x + min_key.inc_y/min_key.y) * coeff_min
+coeff_max = min_key.y/(min_key.x+min_key.inc_x)
+inc_coeff_max = (min_key.inc_x/min_key.x + min_key.inc_y/min_key.y) * coeff_max
 #retta di fit
 coeff_fit = (coeff_max+coeff_min)/2
 #mettere a schermo i coefficenti
 print(f'{coeff_max} , {inc_coeff_max}')
 print(f'{coeff_min} , {inc_coeff_min}')
-print(f'{coeff_fit} , {(coeff_max-coeff_min)/2}')
+print(f'{coeff_fit} , {abs(coeff_max-coeff_min)/2}')
+#print(coeff)
 print(1/coeff_inv[0])
 print(coeff_inv[1])
 #aggiunge le rette ai punti

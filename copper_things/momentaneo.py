@@ -28,14 +28,14 @@ c3 = Point("20±2", "184,05±0,04","c3",0 , 0)
 r1_b = Point("11,5	±	0,2","97,99	±	0,01", "r1" , 0 , -10)
 r2_b = Point("6,8	±	0,1","55,56	±	0,01" ,"r2"  ,0 , -8)
 r3_b = Point("7,2	±	0,1" ,"62,31	±	0,01","r3" , 0 , 8)
-c1_b = Point("4,7	±	0,7" ,"76,57	±	0,01","c1" , 0 ,5 )
-c2_b = Point("11	±	2" ,"101,51	±	0,01","c2",0 , 5)
-c3_b = Point("23	±	4","184,14	±	0,01" ,"c3" , 0 , -8)
+c1_b = Point("4,7	±	0,1" ,"76,57	±	0,01","c1" , 0 ,5 )
+c2_b = Point("11	±	0,2" ,"101,51	±	0,01","c2",0 , 5)
+c3_b = Point("23	±	0,2","184,14	±	0,01" ,"c3" , 0 , -8)
 
 dati = [r1 , r2 , r3 , c1 , c2 , c3 , r1_b , r2_b , r3_b , c1_b , c2_b , c3_b]
 dati_x = [h.x for h in dati]
 dati_y = [h.y for h in dati]
 inc_x_0 = [h.inc_x for h in dati]
 inc_y = [h.inc_y for h in dati]
-dens =  8.22
+dens =  8.91
 print((chi.sum_chi(dati_y[0:3] , dati_x[0:3] , inc_x_0[0:3] , dens)+chi.sum_chi(dati_y[3:7] , dati_x[3:7] , inc_x_0[3:7] , dens))/2)
